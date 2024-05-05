@@ -16,7 +16,12 @@ CREATE TABLE books (
     publisher VARCHAR(255),
     publication_date VARCHAR(255),
     description TEXT,
-    cover_image_url VARCHAR(255)
+    cover_image_url VARCHAR(255),
+    page_count INTEGER,
+    average_rating DECIMAL(3,2),
+    buy_link VARCHAR(255),
+    price DECIMAL(10,2),
+    genres TEXT
 );
 """
 
@@ -25,7 +30,7 @@ CREATE TABLE readList (
     read_list_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES Users(user_id),
     book_id VARCHAR NOT NULL REFERENCES Books(book_id),
-    read_date DATE NOT NULL
+    added_date DATE NOT NULL
 );
 """
 
@@ -44,7 +49,7 @@ CREATE TABLE reviews (
     user_id INTEGER NOT NULL REFERENCES Users(user_id),
     book_id VARCHAR NOT NULL REFERENCES Books(book_id),
     review_text TEXT NOT NULL,
-    rating INTEGER NOT NULL,
+    rating DECIMAL(1,1) NOT NULL,
     review_date DATE NOT NULL
 );
 """
