@@ -16,10 +16,8 @@ CREATE TABLE books (
     publisher VARCHAR(255),
     publication_date VARCHAR(255),
     description TEXT,
-    cover_image_url VARCHAR(255),
     page_count INTEGER,
     average_rating DECIMAL(3,2),
-    buy_link VARCHAR(255),
     price DECIMAL(10,2),
     genres TEXT
 );
@@ -49,8 +47,18 @@ CREATE TABLE reviews (
     user_id INTEGER NOT NULL REFERENCES Users(user_id),
     book_id VARCHAR NOT NULL REFERENCES Books(book_id),
     review_text TEXT NOT NULL,
-    rating DECIMAL(1,1) NOT NULL,
+    rating INTEGER NOT NULL,
     review_date DATE NOT NULL
+);
+"""
+
+logs = """
+CREATE TABLE user_logs (
+    log_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES Users(user_id),
+    operation TEXT NOT NULL,
+    details TEXT,
+    log_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 """
 
@@ -71,6 +79,7 @@ def create_tables(connection):
             crsr.execute(read)
             crsr.execute(toRead)
             crsr.execute(reviews)
+            crsr.execute(logs)
         connection.commit()
         print("created tables")
     except Exception as e:
